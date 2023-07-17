@@ -1,0 +1,37 @@
+services:
+  - type: web
+    name: music-library-drn
+    env: node
+    region: frankfurt
+    plan: free
+    buildCommand: npm ci
+    startCommand: npm run migrate && node index.js
+    envVars:
+      - key: PGPORT
+        fromDatabase:
+          name: music-library-database-drn
+          property: port
+      - key: PGDATABASE
+        fromDatabase:
+          name: music-library-database-drn
+          property: database
+      - key: PGUSER
+        fromDatabase:
+          name: music-library-database-drn
+          property: user
+      - key: PGHOST
+        fromDatabase:
+          name: music-library-database-drn
+          property: host
+      - key: PGPASSWORD
+        fromDatabase:
+          name: music-library-database-drn
+          property: password
+
+
+databases:
+  - name: music-library-database-drn
+    plan: free
+    region: frankfurt
+    databaseName: music_library
+    ipAllowList: []
